@@ -13,17 +13,16 @@ class FullPost extends Component {
         // ponly get if have id and either no post loaded or loaded post not equal to new selected post
         if (this.props.id) {
             if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
-                axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
+                axios.get('/posts/' + this.props.id)
                     .then(response => {
                         this.setState({ loadedPost: response.data })
-                        console.log(this.state.loadedPost)
                     });
             }
         };
     };
 
     deletePostHandler = () => {
-        axios.delete('https://jsonplaceholder.typicode.com/posts/' + this.state.loadedPost.id)
+        axios.delete('/posts/' + this.state.loadedPost.id)
             .then((response) => {
                 console.log(response)
             });
