@@ -7,7 +7,11 @@ class NewPost extends Component {
         title: '',
         content: '',
         author: 'Max'
-    }
+    };
+
+    componentDidMount() {
+        console.log(this.props);
+    };
 
     postHandler = () => {
 

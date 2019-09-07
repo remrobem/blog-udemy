@@ -1,68 +1,49 @@
 import React, { Component } from 'react';
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
-import './Blog.css';
-// import axios from 'axios';
-import instance from '../../../src/axios';
+import { Route, NavLink, Link } from 'react-router-dom';
+// import './Blog.css';
+import Posts from './Posts/Posts';
+import NewPost from './NewPost/NewPost';
+import styles from './Blog.module.css';
 
 class Blog extends Component {
 
-    state = {
-        posts: [],
-        selectedPostId: null,
-        error: false,
-    }
-
-    // componentDidMount is recommended LC hook to use for API's
-    componentDidMount() {
-        instance.get('/posts')
-            .then(response => {
-                // console.log('get response: ', response);
-                const posts = response.data.slice(0, 4);
-                const updatedPosts = posts.map((post) => {
-                    return {
-                        ...post,
-                        author: 'hard-coded'
-                    };
-                });
-                this.setState({ posts: updatedPosts });
-            })
-            .catch(error => {
-                console.log('error: ', error);
-                this.setState({ error: true });
-            });
-    };
-
-    postSelectedHandler = (id) => {
-        this.setState({ selectedPostId: id })
-    }
-
     render() {
-        // message based on error state
-        let posts = this.state.error 
-        ? <p style={{textAlign: 'center'}}>ERROR - Somthing went wrong</p>
-        :
-        // build array of JSX to be rendered
-         this.state.posts.map((post) => {
-            return <Post
-                key={post.id}
-                title={post.title}
-                author={post.author}
-                clicked={() => this.postSelectedHandler(post.id)} />
-        });
-
+        let post = { ...this.props };
+        console.log('post', post)
         return (
-            <div>
-                <section className="Posts">
-                    {posts}
-                </section>
-                <section>
-                    <FullPost id={this.state.selectedPostId} />
-                </section>
-                <section>
+            <div className={styles.Blog}>
+                <header>
+                    <nav>
+                        <ul>
+                            {/* <li><a href='/'>Home</a></li>
+                            <li><a href='/new-post'>New Post</a></li> */}
+                            {/* this method prevent app from reloading */}
+                            <li>
+                                <NavLink to='/' exact activeClassName={styles.active}>Home</NavLink>
+                            </li>
+                            <li><NavLink activeClassName={styles.active}
+                                to={{
+                                    exact: true,
+                                    pathname: '/new-post', // absolute path - added to domain only
+                                    // pathname: this.props.match.url + '/new-post', // works if wrap Blog withRouter
+                                    hash: '#submit',
+                                    search: '?quick=true'
+                                    // {...this.props}  // one way to pass Router props, should use withRouter
+                                }}>New Post</NavLink></li>
+                        </ul>
+                    </nav>
+                </header>
+                {/* <Route path='/' exact render={() => <h1>Home</h1>} /> */}
+                {/* <Route path='/' exact render={() => <h1>Home2</h1>} /> */}
+                {/* <Route path='/' exact render={() => <Posts />} />
+                <Route path='/new-post' exact render={() => <NewPost />} /> */}
+                <Route path='/' exact component={Posts} />
+                <Route path='/new-post' exact component={NewPost} />
+
+                {/* <Posts /> */}
+                {/* <section>
                     <NewPost />
-                </section>
+                </section> */}
             </div>
         );
     }
