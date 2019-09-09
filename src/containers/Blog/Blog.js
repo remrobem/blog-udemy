@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Route, NavLink, Link } from 'react-router-dom';
+import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 // import './Blog.css';
 import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
 import styles from './Blog.module.css';
+import FullPost from './FullPost/FullPost';
 
 class Blog extends Component {
 
@@ -19,7 +20,7 @@ class Blog extends Component {
                             <li><a href='/new-post'>New Post</a></li> */}
                             {/* this method prevent app from reloading */}
                             <li>
-                                <NavLink to='/' exact activeClassName={styles.active}>Home</NavLink>
+                                <NavLink to='/posts/' exact activeClassName={styles.active}>Post</NavLink>
                             </li>
                             <li><NavLink activeClassName={styles.active}
                                 to={{
@@ -37,8 +38,16 @@ class Blog extends Component {
                 {/* <Route path='/' exact render={() => <h1>Home2</h1>} /> */}
                 {/* <Route path='/' exact render={() => <Posts />} />
                 <Route path='/new-post' exact render={() => <NewPost />} /> */}
-                <Route path='/' exact component={Posts} />
-                <Route path='/new-post' exact component={NewPost} />
+                {/* Switch forces only one Route to be used */}
+                {/* sequence of Routes matter - variables can return path directories */}
+                <Switch>
+                    <Route path='/new-post' exact component={NewPost} />
+                    {/* <Route path='/' exact component={Posts} /> */}
+                    {/* remove exact when using nested route (as in Posts.js) */}
+                    <Route path='/posts/' component={Posts} />
+                    {/* <Route path='/:postId' exact component={FullPost} /> */}
+                    <Redirect from='/' to='/posts' />
+                </Switch>
 
                 {/* <Posts /> */}
                 {/* <section>
