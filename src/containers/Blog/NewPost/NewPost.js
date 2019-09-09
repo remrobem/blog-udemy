@@ -13,6 +13,8 @@ class NewPost extends Component {
 
     componentDidMount() {
         console.log(this.props);
+        // could also check if page should be diplayed here (guard)
+        // if !this.props.auth => this.props.history.replace('/posts')
     };
 
     postHandler = () => {

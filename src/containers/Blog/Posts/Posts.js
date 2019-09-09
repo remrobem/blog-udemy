@@ -3,7 +3,7 @@ import instance from '../../../axios';
 import Post from '../../../components/Post/Post';
 import FullPost from '../FullPost/FullPost';
 import styles from './Posts.module.css';
-import { Route}  from 'react-router-dom';
+import { Route, withRouter}  from 'react-router-dom';
 
 class Posts extends Component {
 
@@ -96,4 +96,4 @@ class Posts extends Component {
 };
 
 
-export default Posts;
+export default withRouter(Posts);
